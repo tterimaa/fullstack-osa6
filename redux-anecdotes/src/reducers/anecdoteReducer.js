@@ -5,24 +5,24 @@ const anecdotesAtStart = [
   'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-];
+]
 
-const getId = () => (100000 * Math.random()).toFixed(0);
+const getId = () => (100000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => ({
   content: anecdote,
   id: getId(),
   votes: 0,
-});
+})
 
-const initialState = anecdotesAtStart.map(asObject);
+const initialState = anecdotesAtStart.map(asObject)
 
 export const voteNote = (id) => ({
   type: 'VOTE',
   data: {
     id,
   },
-});
+})
 
 export const addAnecdote = (content) => ({
   type: 'ADD',
@@ -31,21 +31,21 @@ export const addAnecdote = (content) => ({
     id: getId(),
     votes: 0,
   },
-});
+})
 
 const reducer = (state = initialState, action) => {
-  let stateToReturn = [];
+  let stateToReturn = []
   switch (action.type) {
-    case 'VOTE':
-      stateToReturn = state.map((anecdote) => (anecdote.id === action.data.id ? { ...anecdote, votes: anecdote.votes + 1 } : anecdote));
-      break;
-    case 'ADD':
-      stateToReturn = [...state, action.data];
-      break;
-    default:
-      stateToReturn = state;
+  case 'VOTE':
+    stateToReturn = state.map((anecdote) => (anecdote.id === action.data.id ? { ...anecdote, votes: anecdote.votes + 1 } : anecdote))
+    break
+  case 'ADD':
+    stateToReturn = [...state, action.data]
+    break
+  default:
+    stateToReturn = state
   }
-  return stateToReturn.sort((a, b) => b.votes - a.votes);
-};
+  return stateToReturn.sort((a, b) => b.votes - a.votes)
+}
 
-export default reducer;
+export default reducer
