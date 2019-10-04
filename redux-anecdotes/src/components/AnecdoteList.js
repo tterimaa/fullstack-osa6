@@ -1,13 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { voteNote } from '../reducers/anecdoteReducer'
-import { voteAnecdoteNotif, emptyNotif } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = (props) => {
   const vote = (anecdote) => {
-    props.voteNote(anecdote.id)
-    props.voteAnecdoteNotif(anecdote.content)
-    setTimeout(() => props.emptyNotif(), 5000)
+    props.voteNote(anecdote)
+    props.setNotification(`you voted ${anecdote.content}`, 10)
   }
   return (
     <div>
@@ -40,8 +39,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchProps = {
   voteNote,
-  voteAnecdoteNotif,
-  emptyNotif
+  setNotification
 }
 
 const ConnectedAnecdotes = connect(

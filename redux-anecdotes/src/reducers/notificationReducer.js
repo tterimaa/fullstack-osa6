@@ -1,28 +1,24 @@
-export const addAnecdoteNotif = (content) => ({
-  type: 'ADD_NOTIFICATION',
-  data: {
-    content
-  }  
-})
-
-export const voteAnecdoteNotif = (content) => ({
-  type: 'VOTE_NOTIFICATION',
-  data: {
-    content
-  }  
-}) 
-
-export const emptyNotif = () => ({
-  type: 'EMPTY_NOTIFICATION'  
-})
-
+export const setNotification = (content, time) => {
+  const timeInMs = time * 1000
+  return async dispatch => {
+    dispatch({
+      type: 'SET_NOTIF',
+      data: {
+        content
+      }
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'EMPTY_NOTIFICATION'
+      })
+    }, timeInMs)
+  }
+}
 
 const reducer = (state = "", action) => {
   switch (action.type) {
-  case 'VOTE_NOTIFICATION':
-    return `you voted ${action.data.content}`
-  case 'ADD_NOTIFICATION':
-    return `you added ${action.data.content}`
+  case 'SET_NOTIF':
+    return action.data.content
   case 'EMPTY_NOTIFICATION':
     return ''
   default:

@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addAnecdote } from '../reducers/anecdoteReducer'
-import { addAnecdoteNotif, emptyNotif } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = (props) => {
 
@@ -10,10 +9,8 @@ const AnecdoteForm = (props) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    const newAnecdote = await anecdoteService.createNew(content)
-    props.addAnecdote(newAnecdote)
-    props.addAnecdoteNotif(newAnecdote.content)
-    setTimeout(() => props.emptyNotif(), 5000)
+    props.addAnecdote(content)
+    props.setNotification(`you added ${content}`, 10)
   }
   return(
     <div>
@@ -30,8 +27,7 @@ const AnecdoteForm = (props) => {
 
 const mapDispatchProps = {
   addAnecdote,
-  addAnecdoteNotif,
-  emptyNotif
+  setNotification
 }
 
 const ConnectedAnecdoteForm = connect(

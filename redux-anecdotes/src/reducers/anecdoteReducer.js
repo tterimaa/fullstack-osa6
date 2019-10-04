@@ -1,26 +1,36 @@
-export const voteNote = (id) => ({
-  type: 'VOTE',
-  data: {
-    id,
-  },
-})
+import anecdoteService from '../services/anecdotes'
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes,
+export const voteNote = anecdote => {
+  return async dispatch => {
+    const updated = await anecdoteService.vote(anecdote)
+    dispatch({
+      type: 'VOTE',
+      data: updated
+    })
+  }
+} 
+
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
 
-export const addAnecdote = (data) => {
-  return {
-    type: 'ADD',
-    data,
+export const addAnecdote = content => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'ADD',
+      data: newAnecdote
+    })
   }
 }
 
 const anecdoteReducer = (state = [], action) => {
-  console.log(action)
   let stateToReturn = []
   switch (action.type) {
   case 'VOTE':
